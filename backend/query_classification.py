@@ -1,9 +1,8 @@
 from request_gg import RequestGG
+from db_fetcher import DbFetcher
+
 from pyvi.pyvi import ViTokenizer
 import pickle
-
-# optional
-import psycopg2
 
 from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
@@ -19,27 +18,12 @@ class QueryClassification:
     self.tfidf_vectorizer = pickle.load(open("backend/tfidf_vectorizer.pickle", "rb"))
     self.clf = pickle.load(open("backend/classifier.pickle", "rb"))
     self.classes = self.clf.classes_
-
-    # connect Postgres
-    self.conn = None
-    try:
-      self.conn = psycopg2.connect("dbname='postgres' user='postgres' password='12345678'")
-    except:
-      print "Error when connect to DB"
-    self.cur = self.conn.cursor()
-
-    # self.queries_dict_tokenized = pickle.load(open("queries_dict_tokenized_minimized_2.pickle", "rb"))
+    self.db_fetcher = DbFetcher()
 
   def cal_tfidf(self, query):
     query = unicode(query).lower()
 
-    self.cur.execute(
-      unicode("""
-        SELECT query_data FROM query
-        WHERE query = %(query)s"""),
-      {"query": query})
-    tokenized_text = self.cur.fetchone()
-    # tokenized_text = self.queries_dict_tokenized[query]
+    tokenized_text = self.db_fetcher.fetch(query)
 
     if tokenized_text != None:
       tokenized_text = tokenized_text[0]
