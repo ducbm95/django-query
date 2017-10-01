@@ -1,5 +1,5 @@
-from request_gg import RequestGG
-from db_fetcher import DbFetcher
+from .request_gg import RequestGG
+from .db_fetcher import DbFetcher
 
 from pyvi.pyvi import ViTokenizer
 import pickle
