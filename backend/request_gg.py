@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
-import urllib2
-from urllib import urlencode
+import urllib.request  as urllib2
+from urllib.parse import urlencode
 from pyvi.pyvi import ViTokenizer
 
 # class for enriching data from Google
