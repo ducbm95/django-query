@@ -28,8 +28,9 @@ class QueryClassification:
     if tokenized_text != None:
       tokenized_text = tokenized_text[0]
     else:
-      enriched_text = self.requestGG.getStandardName(unicode(query))
+      enriched_text = self.requestGG.getStandardName(query)
       tokenized_text = ViTokenizer.tokenize(enriched_text)
+      tokenized_text = unicode(tokenized_text).lower()
 
     tfidf = self.tfidf_vectorizer.transform([tokenized_text])
     return tfidf
@@ -56,6 +57,7 @@ class QueryClassification:
     return list_predicted_category
 
   def predict_best_classes_with_score(self, query, n = 3):
+    query = query
     tfidf = self.cal_tfidf(query)
     arr_proba = self.clf.predict_proba(tfidf) # for LinearSVC
     # arr_proba = self.clf.predict_proba(tfidf.toarray())
