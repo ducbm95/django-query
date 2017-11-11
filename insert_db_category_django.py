@@ -1,4 +1,5 @@
 # HOW TO RUN THIS SCRIPT
+# python manage.py migrate
 # python manage.py shell
 # >> execfile("insert_db_category_django.py")
 
@@ -21,7 +22,10 @@ def insert_to_db(node, level, parent_id):
     # insert to db here if not exist
     # print cate_id
     if not Category.objects.filter(id = cate_id).exists():
-      cate = Category(id = cate_id, name = cate_name, level = level, parent_id = parent_id)
+      if (parent_id != -1):
+        cate = Category(id = cate_id, name = cate_name, level = level, parent_id = parent_id)
+      else:
+        cate = Category(id = cate_id, name = cate_name, level = level, parent_id = None)
       cate.save()
 
   if node.children:

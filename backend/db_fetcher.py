@@ -7,7 +7,7 @@ class DbFetcher:
     # connect Postgres
     self.conn = None
     try:
-      self.conn = psycopg2.connect("dbname='postgres' user='postgres' password='12345678'")
+      self.conn = psycopg2.connect("dbname='postgres' user='postgres' password=''")
     except:
       print("Error when connect to DB")
     self.cur = self.conn.cursor()
